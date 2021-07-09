@@ -12,6 +12,7 @@ io.on("connection", (socket) => {
       const newNames = names.filter((r) => r !== name);
       newNames.push(id);
       socket.broadcast.to(name).emit("recieve-message", {
+        names: newNames,
         id: id,
         message,
       });

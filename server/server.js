@@ -7,12 +7,13 @@ const io = require("socket.io")(5000, {
 io.on("connection", (socket) => {
   const id = socket.handshake.query.id;
   socket.join(id);
-  socket.on("send-message", ({ names, message }) => {
-    names.forEach((name) => {
-      const newNames = names.filter((r) => r !== name);
-      newNames.push(id);
-      socket.broadcast.to(name).emit("recieve-message", {
-        id: id,
+  socket.on("send-message", ({ ids, message }) => {
+    ids.forEach((idNumber) => {
+      const newids = ids.filter((r) => r !== idNumber);
+      newids.push(id);
+      socket.broadcast.to(idNumber).emit("recieve-message", {
+        ids: newids,
+        sender: id,
         message,
       });
     });
